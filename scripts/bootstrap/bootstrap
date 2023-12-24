@@ -109,8 +109,10 @@ wget-bootstrap() {
 
     # Ensure the local binary is used
     if [[ $(command -v wget) != "$wget_path" ]]; then
+        log INFO "updating path. Adding '$wget_path' to '$PATH'"
         export PATH
         PATH="$(dirname "$wget_path"):$PATH"
+        export PATH
     fi
 }
 
@@ -137,8 +139,10 @@ opkg-bootstrap() {
 
     # Ensure the local binary is used
     if [[ $(command -v opkg) != "$opkg_path" ]]; then
+        log INFO "updating path. Adding '$opkg_path' to '$PATH'"
         export PATH
         PATH="$(dirname "$opkg_path"):$PATH)"
+        export PATH
     fi
 }
 
