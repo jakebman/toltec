@@ -149,6 +149,8 @@ opkg-bootstrap() {
         log INFO "path is safe - opkg is in '$PATH'"
         ls -l "$opkg_path"
     fi
+    log "opkg is $(command -v opkg) via command, and $(which opkg||echo lost)
+    via which"
 }
 
 function opkg_log {
