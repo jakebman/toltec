@@ -179,6 +179,7 @@ main() {
     log "wget at $(command -v wget), which is $(which wget)"
     log "opkg is $(file $(which opkg))"
     log "opkg is $(ls -l $(which opkg))"
+    log "$(export -p | grep opkg)"
     opkg install --add-arch rmall:200 --offline-root / --force-depends \
         "$pkg_filename" > /dev/null 2>&1
     rm "$pkg_filename"
