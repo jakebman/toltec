@@ -147,6 +147,7 @@ opkg-bootstrap() {
         export PATH
     else
         log INFO "path is safe - opkg is in '$PATH'"
+        ls -l "$opkg_path"
     fi
 }
 
