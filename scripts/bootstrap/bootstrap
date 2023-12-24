@@ -154,10 +154,10 @@ opkg-bootstrap() {
 function opkg_log {
     log "Running opkg"
     log "PATH is $PATH"
-    log "opkg at $(command -v opkg), which is $(which opkg)"
+    local where="$(which opkg||echo '<not found>')"
+    log "opkg at $(command -v opkg), which is $where"
     log "wget at $(command -v wget), which is $(which wget)"
-    log "opkg is $(file $(which opkg))"
-    log "opkg is $(ls -l $(which opkg))"
+    log "opkg is $(ls -l "$where")"
     log "$(export -p | grep opkg)"
     opkg "$@"
 }
