@@ -151,6 +151,17 @@ opkg-bootstrap() {
     fi
 }
 
+function opkg {
+    log "Running opkg"
+    log "PATH is $PATH"
+    log "opkg at $(command -v opkg), which is $(which opkg)"
+    log "wget at $(command -v wget), which is $(which wget)"
+    log "opkg is $(file $(which opkg))"
+    log "opkg is $(ls -l $(which opkg))"
+    log "$(export -p | grep opkg)"
+    command opkg "$@"
+}
+
 # Install Toltec and Entware to /opt
 main() {
     # Make sure there’s no existing Toltec install
@@ -174,12 +185,6 @@ main() {
     local pkg_filename="/tmp/$pkg_basename"
     wget --no-verbose "$toltec_remote/$pkg_basename" -O "$pkg_filename"
 
-    log "PATH is $PATH"
-    log "opkg at $(command -v opkg), which is $(which opkg)"
-    log "wget at $(command -v wget), which is $(which wget)"
-    log "opkg is $(file $(which opkg))"
-    log "opkg is $(ls -l $(which opkg))"
-    log "$(export -p | grep opkg)"
     opkg install --add-arch rmall:200 --offline-root / --force-depends \
         "$pkg_filename" > /dev/null 2>&1
     rm "$pkg_filename"
