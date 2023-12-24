@@ -151,7 +151,7 @@ opkg-bootstrap() {
     fi
 }
 
-function opkg {
+function opkg_log {
     log "Running opkg"
     log "PATH is $PATH"
     log "opkg at $(command -v opkg), which is $(which opkg)"
@@ -159,7 +159,7 @@ function opkg {
     log "opkg is $(file $(which opkg))"
     log "opkg is $(ls -l $(which opkg))"
     log "$(export -p | grep opkg)"
-    command opkg "$@"
+    opkg "$@"
 }
 
 # Install Toltec and Entware to /opt
@@ -185,7 +185,7 @@ main() {
     local pkg_filename="/tmp/$pkg_basename"
     wget --no-verbose "$toltec_remote/$pkg_basename" -O "$pkg_filename"
 
-    opkg install --add-arch rmall:200 --offline-root / --force-depends \
+    opkg_log install --add-arch rmall:200 --offline-root / --force-depends \
         "$pkg_filename" > /dev/null 2>&1
     rm "$pkg_filename"
 
@@ -208,8 +208,8 @@ main() {
     generate-opkg-conf
 
     # Install base Entware packages
-    opkg update
-    opkg install entware-opt
+    opkg_log update
+    opkg_log install entware-opt
 
     # Fix for multiuser environment
     chmod 777 /opt/tmp
@@ -252,16 +252,16 @@ main() {
     [[ ! -f /opt/bin/wget ]] && additional_packages+=(wget-ssl)
 
     if [[ ${#additional_packages[@]} -gt 0 ]]; then
-        opkg install "${additional_packages[@]}"
+        opkg_log install "${additional_packages[@]}"
     fi
 
     if [[ $# -gt 0 ]]; then
-        opkg install "$@"
+        opkg_log install "$@"
     fi
 
     # Reinstall toltec-bootstrap to mark its files as managed,
     # to install its dependencies, and to set the user’s PATH
-    opkg install toltec-bootstrap
+    opkg_log install toltec-bootstrap
     log "After each system upgrade, run 'toltecctl reenable' to re-enable Toltec"
 }
 
