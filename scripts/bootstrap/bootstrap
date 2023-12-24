@@ -156,7 +156,6 @@ opkg-bootstrap() {
 }
 
 function opkg_where {
-    log "Running opkg"
     log "PATH is $PATH"
     local where="$(which opkg||echo '<not found>')"
     log "opkg at $(command -v opkg), which is $where"
@@ -166,6 +165,7 @@ function opkg_where {
 }
 function opkg_log {
     opkg_where
+    log "Running opkg $@"
     opkg "$@"
 }
 
