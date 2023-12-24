@@ -213,7 +213,9 @@ main() {
     opkg_where
     # Create bind mount from user directory to /opt
     rm -rf /opt
+    opkg_where
     add-bind-mount "$toltec_src" "$toltec_dest"
+    opkg_where
     mkdir -p /opt/{bin,etc,lib/opkg,tmp,var/lock}
 
     opkg_where
