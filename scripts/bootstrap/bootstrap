@@ -199,6 +199,7 @@ main() {
 
     log "Installing Toltec and Entware"
     ls -al /opt/*
+    ls -al /opt/*/*
 
     # Create bind mount from user directory to /opt
     rm -rf /opt
