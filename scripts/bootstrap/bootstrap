@@ -163,6 +163,7 @@ function opkg_where {
     log "wget at $(command -v wget), which is $(which wget)"
     log "opkg is $(ls -l /home/root/.local/bin/opkg || echo MISSING)"
     log "$(export -p | grep opkg || echo no aliases or functions for opkg)"
+}
 function opkg_log {
     opkg_where
     opkg "$@"
