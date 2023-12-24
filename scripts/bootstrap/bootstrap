@@ -155,7 +155,7 @@ opkg-bootstrap() {
         "$(ls -l "$opkg_path") via ls"
 }
 
-function opkg_log {
+function opkg_where {
     log "Running opkg"
     log "PATH is $PATH"
     local where="$(which opkg||echo '<not found>')"
@@ -163,6 +163,8 @@ function opkg_log {
     log "wget at $(command -v wget), which is $(which wget)"
     log "opkg is $(ls -l /home/root/.local/bin/opkg || echo MISSING)"
     log "$(export -p | grep opkg || echo no aliases or functions for opkg)"
+function opkg_log {
+    opkg_where
     opkg "$@"
 }
 
@@ -193,8 +195,12 @@ main() {
         "$pkg_filename" > /dev/null 2>&1 && log "success install $pkg_filename"
     rm "$pkg_filename"
 
+    opkg_where
+
     # shellcheck source=../../package/toltec-bootstrap/toltecctl
     source /home/root/.local/bin/toltecctl
+
+    opkg_where
 
     # Clean up the partial install if an uncaught error happens
     trap error-cleanup ERR
@@ -203,16 +209,21 @@ main() {
     ls -al /opt/*
     ls -al /opt/*/*
 
+    opkg_where
     # Create bind mount from user directory to /opt
     rm -rf /opt
     add-bind-mount "$toltec_src" "$toltec_dest"
     mkdir -p /opt/{bin,etc,lib/opkg,tmp,var/lock}
 
+    opkg_where
+
     # Generate Opkg configuration
     create-entware-conf
+    opkg_where
     switch-branch "$toltec_branch"
+    opkg_where
     generate-opkg-conf
-
+    opkg_where
     # Install base Entware packages
     opkg_log update
     opkg_log install entware-opt
