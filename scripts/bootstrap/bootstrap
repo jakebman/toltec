@@ -113,6 +113,8 @@ wget-bootstrap() {
         export PATH
         PATH="$(dirname "$wget_path"):$PATH"
         export PATH
+    else
+        log INFO "path is safe - wget is in '$PATH'"
     fi
 }
 
@@ -143,6 +145,8 @@ opkg-bootstrap() {
         export PATH
         PATH="$(dirname "$opkg_path"):$PATH)"
         export PATH
+    else
+        log INFO "path is safe - opkg is in '$PATH'"
     fi
 }
 
