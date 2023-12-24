@@ -174,6 +174,8 @@ main() {
     local pkg_filename="/tmp/$pkg_basename"
     wget --no-verbose "$toltec_remote/$pkg_basename" -O "$pkg_filename"
 
+    log INFO "PATH is $PATH" "opkg at $(command -v opkg)" "wget at $(command -v
+    wget)"
     opkg install --add-arch rmall:200 --offline-root / --force-depends \
         "$pkg_filename" > /dev/null 2>&1
     rm "$pkg_filename"
