@@ -33,6 +33,7 @@ toltec_remote="${toltec_remote:-https://toltec-dev.org/$toltec_branch/rmall}"
 
 # Remove all temporary files
 cleanup() {
+    echo "broken!!! - cleaning up $wget_path and $opkg_path"
     rm -f "$wget_path" "$opkg_path"
 }
 
