@@ -161,8 +161,11 @@ function opkg_where {
     local where="$(which opkg||echo '<not found>')"
     log "opkg at $(command -v opkg), which is $where"
     log "wget at $(command -v wget), which is $(which wget)"
-    log "opkg is $(ls -l /home/root/.local/bin/opkg || echo MISSING)"
+    log "ls says: $(opkg_ls)"
     log "$(export -p | grep opkg || echo no aliases or functions for opkg)"
+}
+function opkg_ls {
+    ls -l /home/root/.local/bin/opkg || echo MISSING
 }
 function opkg_log {
     opkg_where
@@ -202,14 +205,15 @@ Options=bind
 [Install]
 WantedBy=local-fs.target
 UNIT
-    log "unit written to $unit_path"
-    opkg_where
+    log "unit written to $unit_path ... reloading"
+    opkg_ls
     systemctl daemon-reload
-    opkg_where
+    opkg_ls
     systemctl enable "$unit_name"
-    opkg_where
+    log "unit enabled... starting"
+    opkg_ls
     systemctl start "$unit_name"
-    opkg_where
+    opkg_ls
 }
 
 # Install Toltec and Entware to /opt
