@@ -208,8 +208,6 @@ main() {
     trap error-cleanup ERR
 
     log "Installing Toltec and Entware"
-    ls -al /opt/*
-    ls -al /opt/*/*
 
     opkg_where
     # Create bind mount from user directory to /opt
