@@ -259,6 +259,8 @@ main() {
     # Create bind mount from user directory to /opt
     rm -rf /opt
     opkg_where
+}
+main2() {
     add-bind-mount2 "$toltec_src" "$toltec_dest"
     opkg_where
     mkdir -p /opt/{bin,etc,lib/opkg,tmp,var/lock}
