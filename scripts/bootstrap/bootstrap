@@ -169,6 +169,48 @@ function opkg_log {
     log "Running opkg $@"
     opkg "$@"
 }
+# Create or update a bind mount systemd unit and enable it - WITH LOGGING!
+#
+# Arguments:
+#
+# $1 - Source directory
+# $2 - Mount point
+add-bind-mount2() {
+    local unit_path
+    local unit_name
+    unit_path="$(get-bind-mount-path "$2")"
+    unit_name="$(basename "$unit_path")"
+
+    if [[ -e $unit_path ]]; then
+        echo "Bind mount configuration for '$2' already exists, updating"
+    else
+        echo "Mounting '$1' over '$2'"
+    fi
+
+    opkg_where
+    cat > "$unit_path" << UNIT
+[Unit]
+Description=Bind mount $1 over $2
+DefaultDependencies=no
+Conflicts=umount.target
+Before=local-fs.target umount.target
+[Mount]
+What=$1
+Where=$2
+Type=none
+Options=bind
+[Install]
+WantedBy=local-fs.target
+UNIT
+    log "unit written to $unit_path"
+    opkg_where
+    systemctl daemon-reload
+    opkg_where
+    systemctl enable "$unit_name"
+    opkg_where
+    systemctl start "$unit_name"
+    opkg_where
+}
 
 # Install Toltec and Entware to /opt
 main() {
@@ -214,7 +256,7 @@ main() {
     rm -rf /opt
     opkg_where
     set -x
-    add-bind-mount "$toltec_src" "$toltec_dest"
+    add-bind-mount2 "$toltec_src" "$toltec_dest"
     set +x
     opkg_where
     mkdir -p /opt/{bin,etc,lib/opkg,tmp,var/lock}
