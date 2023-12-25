@@ -212,7 +212,7 @@ UNIT
     systemctl enable "$unit_name"
     log "unit enabled... starting"
     opkg_ls
-    systemctl start "$unit_name"
+    systemctl start "$unit_name" && log started || log "failed to start"
     opkg_ls
 }
 
@@ -259,9 +259,7 @@ main() {
     # Create bind mount from user directory to /opt
     rm -rf /opt
     opkg_where
-    set -x
     add-bind-mount2 "$toltec_src" "$toltec_dest"
-    set +x
     opkg_where
     mkdir -p /opt/{bin,etc,lib/opkg,tmp,var/lock}
 
