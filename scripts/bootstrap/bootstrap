@@ -35,8 +35,8 @@ toltec_remote="${toltec_remote:-https://toltec-dev.org/$toltec_branch/rmall}"
 cleanup() {
     echo "broken!!! - cleaning up $wget_path and $opkg_path"
     read -ra trace < <(caller 0)
-    >>~/cleaned-up echo ERROR "Unexpected error on line ${trace[2]}:${trace[0]} in function ${trace[1]}"
     >>~/cleaned-up date
+    >>~/cleaned-up cat <(caller 0; caller 1; caller 2)
     rm -f "$wget_path" "$opkg_path"
 }
 
