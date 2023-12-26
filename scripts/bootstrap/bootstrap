@@ -34,7 +34,6 @@ toltec_remote="${toltec_remote:-https://toltec-dev.org/$toltec_branch/rmall}"
 # Remove all temporary files
 cleanup() {
     echo "broken!!! - cleaning up $wget_path and $opkg_path"
-    read -ra trace < <(caller 0)
     >>~/cleaned-up date
     >>~/cleaned-up cat <(caller 0; caller 1; caller 2)
     rm -f "$wget_path" "$opkg_path"
@@ -69,6 +68,7 @@ exists-non-empty() {
 # remain from previous installs
 check-installed() {
     if [[ ! -f $toltecctl_path ]]; then
+        log "safe to proceed - there's nothing in $toltecctl_path"
         return
     fi
 
