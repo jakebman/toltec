@@ -269,6 +269,7 @@ main() {
     rm -rf /opt
     opkg_where
     add-bind-mount2 "$toltec_src" "$toltec_dest"
+    opkg_where
 }
 main2() {
     add-bind-mount3 "$toltec_src" "$toltec_dest"
