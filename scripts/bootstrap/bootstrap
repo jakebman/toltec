@@ -33,7 +33,8 @@ toltec_remote="${toltec_remote:-https://toltec-dev.org/$toltec_branch/rmall}"
 
 # Remove all temporary files
 cleanup() {
-    rm -f "$wget_path" "$opkg_path"
+    echo "running cleanup (doing nothing)"
+    date >>~/cleanup-ran-timestamp
 }
 
 # Remove unfinished installation after unexpected error
