@@ -36,7 +36,7 @@ cleanup() {
     echo "broken!!! - cleaning up $wget_path and $opkg_path" || true
     >>~/cleaned-up date || true
     >>~/cleaned-up cat <((caller 0; caller 1; caller 2) || true) || true
-    rm -f "$wget_path" "$opkg_path" || echo "failed to delete files?" || true
+    #rm -f "$wget_path" "$opkg_path" || echo "failed to delete files?" || true
 }
 
 # Remove unfinished installation after unexpected error
@@ -54,9 +54,10 @@ error-cleanup() {
     # Get out of /opt so it can be unmounted and removed
     cd /home/root
 
-    clean-path
-    remove-bind-mount "$toltec_dest"
-    rm -rf "$toltec_dest" "$toltec_src" "$toltecctl_path"
+    echo "<Not cleaning up on error>"
+    #clean-path
+    #remove-bind-mount "$toltec_dest"
+    #rm -rf "$toltec_dest" "$toltec_src" "$toltecctl_path"
 }
 
 # Check that a directory exists and is not empty
@@ -236,8 +237,7 @@ main() {
     opkg-bootstrap
 
     # Remove those binaries in any case when the script exits
-    # nvm. Do not do that.
-    # trap cleanup EXIT
+    trap cleanup EXIT
 
     # Download and install the latest toltec-bootstrap package (without
     # its dependencies) to use toltecctl definitions
