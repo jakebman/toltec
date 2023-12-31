@@ -236,7 +236,8 @@ main() {
     opkg-bootstrap
 
     # Remove those binaries in any case when the script exits
-    trap cleanup EXIT
+    # nvm. Do not do that.
+    # trap cleanup EXIT
 
     # Download and install the latest toltec-bootstrap package (without
     # its dependencies) to use toltecctl definitions
