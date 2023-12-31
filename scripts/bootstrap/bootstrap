@@ -36,7 +36,7 @@ cleanup() {
     echo "broken!!! - cleaning up $wget_path and $opkg_path" || true
     >>~/cleaned-up date || true
     >>~/cleaned-up cat <((caller 0; caller 1; caller 2) || true) || true
-    #rm -f "$wget_path" "$opkg_path" || echo "failed to delete files?" || true
+    echo "don't" rm -f "$wget_path" "$opkg_path"
 }
 
 # Remove unfinished installation after unexpected error
@@ -55,9 +55,9 @@ error-cleanup() {
     cd /home/root
 
     echo "<Not cleaning up on error>"
-    #clean-path
-    #remove-bind-mount "$toltec_dest"
-    #rm -rf "$toltec_dest" "$toltec_src" "$toltecctl_path"
+    echo "don't" clean-path
+    echo "don't" remove-bind-mount "$toltec_dest"
+    echo "don't" rm -rf "$toltec_dest" "$toltec_src" "$toltecctl_path"
 }
 
 # Check that a directory exists and is not empty
@@ -251,7 +251,7 @@ main() {
 
     opkg_log install --add-arch rmall:200 --offline-root / --force-depends \
         "$pkg_filename" > /dev/null 2>&1 && log "success install $pkg_filename"
-    rm "$pkg_filename"
+    echo rm "$pkg_filename"
 
     opkg_where
 
